@@ -20,7 +20,6 @@ type EventItem = {
   date: string;
   location: string;
   imageUrl: string;
-  color: string;
 };
 
 const EVENTS: EventItem[] = [
@@ -30,23 +29,20 @@ const EVENTS: EventItem[] = [
     date: "Wed 04 Mar",
     location: "Holi wave ground",
     imageUrl: "/image.png", // Colorful Holi Image
-    color: "",
   },
   {
     id: 2,
     title: "Neon Nights Festival",
     date: "Fri 06 Mar",
     location: "City Stadium",
-    imageUrl: "/image.png", // Event crowd
-    color: "from-blue-500 to-cyan-600",
+    imageUrl: "/image2.png", // Event crowd
   },
   {
     id: 3,
     title: "Cultural Beats",
     date: "Sat 07 Mar",
     location: "Riverfront Park",
-    imageUrl: "/image.png", // Concert
-    color: "from-pink-500 to-rose-600",
+    imageUrl: "/image3.png", // Concert
   },
 ];
 
@@ -81,7 +77,7 @@ export default function Carousel() {
         backgroundImage: `url(${EVENTS[currentIndex].imageUrl})`,
       }}
       className={cn(
-        `relative w-full min-h-150 flex items-center justify-center  overflow-hidden font-sans text-white  `,
+        `relative w-full min-h-150 flex items-center justify-center  overflow-hidden font-sans text-white  bg-no-repeat bg-center bg-cover `,
       )}
     >
       {/* Overlay Gradient for text readability */}
