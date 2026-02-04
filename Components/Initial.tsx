@@ -11,7 +11,7 @@ const Initial = () => {
     const run = async () => {
       await icon.start({
         scale: [0.6, 1],
-        transition: { duration: 0.8, ease: "easeOut" },
+        transition: { duration: 1, ease: "easeOut" },
       });
 
       await text.start({
@@ -20,29 +20,29 @@ const Initial = () => {
       });
       await text.start({
         x: -260,
-        transition: { duration: 0.5, ease: "easeIn" },
+        transition: { duration: 1, ease: "easeIn" },
       });
 
       await icon.start({
         scale: [1, 0],
         opacity: [1, 0],
-        transition: { duration: 0.5, ease: "easeIn" },
+        transition: { duration: 1, ease: "easeIn" },
       });
       line.start({
         scaleX: 1,
-        transition: { duration: 0.5, ease: "linear" },
+        transition: { duration: 1, ease: "linear" },
       });
       await line1.start({
         scaleX: 1,
-        transition: { duration: 0.5, ease: "linear" },
+        transition: { duration: 1, ease: "linear" },
       });
       line.start({
         y: "-50vh",
-        transition: { duration: 0.8, ease: "easeIn" },
+        transition: { duration: 1.2, ease: "easeIn" },
       });
       await line1.start({
         y: "49vh",
-        transition: { duration: 0.8, ease: "easeIn" },
+        transition: { duration: 1.2, ease: "easeIn" },
       });
     };
     run();

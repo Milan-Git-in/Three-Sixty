@@ -1,6 +1,11 @@
-import Initial from "@/Components/Initial";
-import Image from "next/image";
+import Carousel from "@/Components/Carousel";
+import Homepage from "@/Pages/Homepage";
 
 export default function Home() {
-  return <Initial />;
+  return (
+    <>
+      <Homepage />
+      <Carousel />
+    </>
+  );
 }
