@@ -4,14 +4,14 @@ import { IoMdPin } from "react-icons/io";
 
 const Header = () => {
   return (
-    <div className="flex px-10 w-full bg-black drop-shadow-lg drop-shadow-neutral-900 items-center justify-between ">
+    <div className="flex px-4 md:px-10 w-full bg-black drop-shadow-lg drop-shadow-neutral-900 items-center justify-between ">
       <div className="flex items-center ">
         <Image
           src="/favicon.ico"
           alt="Logo"
           width={50}
           height={50}
-          className="m-2"
+          className="my-2"
         />
         <h1 className="text-white text-2xl m-2 font-semibold">360 Events</h1>
       </div>
