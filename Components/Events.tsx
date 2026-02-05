@@ -36,14 +36,14 @@ const EVENTS: EventItem[] = [
 ];
 const Events = () => {
   return (
-    <div className="flex flex-col p-8">
+    <div className="flex flex-col p-8 gap-2">
       <div className="w-full flex justify-between">
         <h1 className="text-3xl font-semibold">Popular Events</h1>
         <span className="flex text-xl items-center gap-2">
           View All <BiRightArrow size={20} />
         </span>
       </div>
-      <h1 className="text-2xl text-neutral-500">
+      <h1 className="text-xl text-neutral-500">
         Popular events to attend with friends
       </h1>
       <div className="grid md:grid-cols-5 grid-cols-2">
