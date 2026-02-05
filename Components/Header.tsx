@@ -17,7 +17,7 @@ const Header = () => {
       </div>
       <div className="bg-neutral-900 w-[40vw] gap-3 h-10 rounded-4xl flex items-center px-2 max-w-100">
         <IoMdPin className="size-5" />
-        <p className="text-neutral-300 font-semibold">Ahemedabad</p>
+        <p className="text-neutral-300 font-semibold">Ahmedabad</p>
       </div>
     </div>
   );
