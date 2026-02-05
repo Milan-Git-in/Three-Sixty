@@ -45,7 +45,7 @@ const EVENTS: EventItem[] = [
   },
 ];
 
-const AUTOPLAY_INTERVAL = 5000; // 5 seconds
+const AUTOPLAY_INTERVAL = 3000; // 5 seconds
 
 // --- Components ---
 
@@ -148,6 +148,7 @@ export default function Carousel() {
                 type: "spring",
                 stiffness: 300,
                 damping: 30,
+                duration: 10,
               }}
             >
               {EVENTS.map((event, index) => (
@@ -155,10 +156,10 @@ export default function Carousel() {
                   key={event.id}
                   // 85% width allows the next image (the remaining 15%) to peek in
                   className={cn(
-                    "relative shrink-0 w-[85%]  aspect-video rounded-3xl overflow-hidden -white/20 shadow-lg",
+                    "relative shrink-0 w-[85%]  aspect-video rounded-3xl overflow-hidden -white/20 shadow-lg transition-all duration-400",
                     // Make inactive slides slightly dim/smaller if desired
                     index !== currentIndex &&
-                      "opacity-90 scale-80 origin-left transition-all duration-500",
+                      "opacity-90 scale-80 origin-left transition-all duration-400",
                   )}
                 >
                   <Image
