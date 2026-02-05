@@ -1,10 +1,11 @@
 import Header from "@/Components/Header";
-import React from "react";
+import Carousel from "@/Components/Carousel";
 
 const Homepage = () => {
   return (
     <>
       <Header />
+      <Carousel />
     </>
   );
 };

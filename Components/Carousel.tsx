@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -77,11 +76,11 @@ export default function Carousel() {
         backgroundImage: `url(${EVENTS[currentIndex].imageUrl})`,
       }}
       className={cn(
-        `relative w-full min-h-150 flex items-center justify-center  overflow-hidden font-sans text-white  bg-no-repeat bg-center bg-cover `,
+        `relative w-full min-h-150 flex items-center justify-center  overflow-hidden font-sans text-white  bg-no-repeat bg-center bg-cover`,
       )}
     >
       {/* Overlay Gradient for text readability */}
-      <div className="absolute w-full h-full  inset-0 z-10  bg-linear-to-t from-black  via-black/90 to-transparent" />
+      <div className="absolute w-full h-full  inset-0 z-10  bg-linear-to-t from-black  via-black/90 to-transparent backdrop-blur-sm" />
       <div className=" w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
         <div className="lg:col-span-4 flex flex-col justify-center  pl-4 lg:pl-10 pt-10">
           <AnimatePresence mode="wait">
