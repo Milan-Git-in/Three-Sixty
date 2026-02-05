@@ -46,7 +46,7 @@ const Events = () => {
       <h1 className="text-xl text-neutral-500">
         Popular events to attend with friends
       </h1>
-      <div className="grid md:grid-cols-5 grid-cols-2">
+      <div className="grid lg:grid-cols-5 grid-cols-2">
         {EVENTS.slice(0, 5).map((value) => {
           return (
             <div key={value.id} className="rounded-lg p-4 m-2">
