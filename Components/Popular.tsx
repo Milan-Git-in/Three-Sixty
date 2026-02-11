@@ -173,7 +173,7 @@ function CarouselCard({ item, index, scrollX }: CardProps) {
 
   return (
     <motion.div
-      className="snap-center shrink-0 w-70 sm:w-96 h-[55vh] rounded-2xl overflow-hidden relative"
+      className="snap-center shrink-0 w-70 sm:w-96 h-[60vh] rounded-2xl overflow-hidden relative"
       style={{
         scale,
         opacity,
