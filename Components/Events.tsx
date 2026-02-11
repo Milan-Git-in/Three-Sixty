@@ -38,29 +38,46 @@ const Events = () => {
   return (
     <div className="flex flex-col p-8 gap-2">
       <div className="w-full flex justify-between">
-        <h1 className="text-3xl font-semibold">Popular Events</h1>
-        <span className="flex text-xl items-center gap-2">
-          View All <BiRightArrow size={20} />
-        </span>
+        <h1 className="text-3xl font-semibold">Upcoming Events</h1>
       </div>
+
       <h1 className="text-xl text-neutral-500">
         Popular events to attend with friends
       </h1>
-      <div className="grid lg:grid-cols-5 grid-cols-2">
-        {EVENTS.slice(0, 5).map((value) => {
-          return (
-            <div key={value.id} className="rounded-lg p-4 m-2">
+
+      {/* SCROLL CONTAINER */}
+      <div
+        className="
+      w-full
+      overflow-x-auto
+      overflow-y-hidden
+      no-scrollbar
+    "
+        style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
+      >
+        {/* HORIZONTAL ROW */}
+        <div className="flex gap-4">
+          {EVENTS.map((event) => (
+            <div
+              key={event.id}
+              className="
+            shrink-0
+            w-72
+            rounded-lg
+            p-4
+          "
+            >
               <img
-                src={value.imageUrl}
-                alt={value.title}
+                src={event.imageUrl}
+                alt={event.title}
                 className="w-full h-48 object-cover rounded-lg"
               />
-              <h2 className="text-xl font-semibold mt-2">{value.title}</h2>
-              <p className="text-gray-600">{value.date}</p>
-              <p className="text-gray-500">{value.location}</p>
+              <h2 className="text-xl font-semibold mt-2">{event.title}</h2>
+              <p className="text-gray-600">{event.date}</p>
+              <p className="text-gray-500">{event.location}</p>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </div>
   );

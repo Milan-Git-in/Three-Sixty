@@ -1,15 +1,18 @@
 import Header from "@/Components/Header";
-import Carousel from "@/Components/Carousel";
 import Events from "@/Components/Events";
 import Popular from "@/Components/Popular";
+import Grids from "@/Components/Grids";
+import Footer from "@/Components/Footer";
 
 const Homepage = () => {
   return (
     <>
       <Header />
-      <Carousel />
-      <Events />
       <Popular />
+      {/* <Carousel /> */}
+      <Events />
+      <Grids />
+      <Footer />
     </>
   );
 };

@@ -1,94 +1,215 @@
 "use client";
-import React, { useRef } from "react";
-import { BiCalendar } from "react-icons/bi";
-import { GiChecklist, GiCheckMark } from "react-icons/gi";
-import { SiChainlink } from "react-icons/si";
 
-const SERVICES = [
+import { motion, useScroll, useTransform, MotionValue } from "motion/react";
+import { useRef, useEffect, useState } from "react";
+import { BsEye } from "react-icons/bs";
+
+/* ================== TYPES ================== */
+interface Service {
+  id: number;
+  image: string;
+  Title: string;
+  genre: string;
+  location: string;
+  date: string;
+  views: number;
+  Celebrity?: string;
+}
+
+/* ================== DATA ================== */
+const ORIGINAL_DATA: Service[] = [
   {
     id: 1,
-    icon: <SiChainlink />,
-    h1: "Promotions",
-    p: "Boost your event's visibility with our targeted promotion services.",
+    image: "/image.png",
+    Title: "Mehfil-e-Sufi",
+    genre: "Music",
+    location: "Ahmedabad",
+    date: "Wed 04 Mar",
+    views: 1200,
+    Celebrity: "Nusrat Fateh Ali Khan",
   },
   {
     id: 2,
-    icon: <BiCalendar />,
-    h1: "Spread Smiles",
-    p: "Smiles to your audience by bringing artists and celebrities together.",
+    image: "/image3.png",
+    Title: "Holi Festival",
+    genre: "Festival",
+    location: "Delhi",
+    date: "Wed 20 Mar",
+    views: 2500,
+    Celebrity: "Shahid Kapoor",
   },
   {
     id: 3,
-    icon: <GiChecklist />,
-    h1: "Create & List Events",
-    p: "Easily create and list your events on our platform.",
-  },
-  {
-    id: 4,
-    icon: <GiCheckMark />,
-    h1: "Sales & Bookings",
-    p: "Streamline your event sales and bookings.",
+    image: "/image2.png",
+    Title: "Grand Holi Waves",
+    genre: "Festival",
+    location: "Mumbai",
+    date: "Wed 25 Mar",
+    views: 3000,
   },
 ];
 
-const Popular = () => {
+/* ================== CONFIG ================== */
+const DUPES = 9; // must be odd
+const MIDDLE_DUPE = Math.floor(DUPES / 2);
+
+const CARD_WIDTH_MOBILE = 280;
+const CARD_WIDTH_DESKTOP = 384;
+const GAP = 16;
+const IDLE_TIME = 100;
+
+/* ================== HELPERS ================== */
+const isMobile = () => typeof window !== "undefined" && window.innerWidth < 640;
+
+const cardSize = () =>
+  (isMobile() ? CARD_WIDTH_MOBILE : CARD_WIDTH_DESKTOP) + GAP;
+
+/* ================== COMPONENT ================== */
+export default function InfiniteNativeCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const idleTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const isDown = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
+  const SERVICES = Array.from({ length: DUPES }, () => ORIGINAL_DATA).flat();
 
-  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    isDown.current = true;
-    startX.current = e.pageX;
-    scrollLeft.current = containerRef.current?.scrollLeft || 0;
+  const { scrollX } = useScroll({ container: containerRef });
+
+  /* ---------- START IN MIDDLE ---------- */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const singleSetWidth = ORIGINAL_DATA.length * cardSize();
+
+    el.scrollTo({
+      left: singleSetWidth * MIDDLE_DUPE,
+      behavior: "instant",
+    });
+  }, []);
+
+  /* ---------- LOGICAL INDEX ---------- */
+  const getLogicalIndex = (scrollLeft: number) => {
+    return Math.round(scrollLeft / cardSize()) % ORIGINAL_DATA.length;
   };
 
-  const onMouseUp = () => {
-    isDown.current = false;
+  /* ---------- SNAP BACK ---------- */
+  const snapBackToMiddle = () => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const logicalIndex = getLogicalIndex(el.scrollLeft);
+
+    const target =
+      (MIDDLE_DUPE * ORIGINAL_DATA.length + logicalIndex) * cardSize();
+
+    el.classList.add("snap-none");
+
+    el.scrollTo({
+      left: target,
+      behavior: "instant",
+    });
+
+    requestAnimationFrame(() => {
+      el.classList.remove("snap-none");
+    });
   };
 
-  const onMouseLeave = () => {
-    isDown.current = false;
-  };
+  /* ---------- IDLE DETECTION ---------- */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDown.current) return;
-    e.preventDefault();
-    const walk = (e.pageX - startX.current) * 1.2;
-    if (containerRef.current) {
-      containerRef.current.scrollLeft = scrollLeft.current - walk;
-    }
-  };
+    const onScroll = () => {
+      if (idleTimer.current) clearTimeout(idleTimer.current);
+
+      idleTimer.current = setTimeout(() => {
+        snapBackToMiddle();
+      }, IDLE_TIME);
+    };
+
+    el.addEventListener("scroll", onScroll);
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <div className="p-8 flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold">Our Popular Services</h1>
-
+    <div className="w-full min-h-[600px] bg-black flex items-center overflow-hidden">
       <div
         ref={containerRef}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseLeave}
-        onMouseMove={onMouseMove}
-        className="flex overflow-x-auto snap-x snap-mandatory space-x-6 cursor-grab active:cursor-grabbing select-none scroll-smooth"
-        style={{
-          scrollbarWidth: "none",
-        }}
+        className="
+          w-full flex gap-4 overflow-x-auto py-10
+          snap-x snap-proximity scroll-smooth no-scrollbar
+          px-[calc(50vw-140px)] sm:px-[calc(50%-192px)]
+        "
+        style={{ scrollbarWidth: "none" }}
       >
-        {SERVICES.map((service) => (
-          <div
-            key={service.id}
-            className="shrink-0 w-80 p-4 bg-zinc-900 rounded-lg snap-start"
-          >
-            <div className="text-5xl text-blue-500 mb-2">{service.icon}</div>
-            <h2 className="text-xl font-semibold">{service.h1}</h2>
-            <p className="text-lg text-gray-600 mt-2">{service.p}</p>
-          </div>
+        {SERVICES.map((item, i) => (
+          <CarouselCard
+            key={`${item.id}-${i}`}
+            item={item}
+            index={i}
+            scrollX={scrollX}
+          />
         ))}
       </div>
     </div>
   );
-};
+}
 
-export default Popular;
+/* ================== CARD ================== */
+interface CardProps {
+  item: Service;
+  index: number;
+  scrollX: MotionValue<number>;
+}
+
+function CarouselCard({ item, index, scrollX }: CardProps) {
+  const width = isMobile() ? CARD_WIDTH_MOBILE : CARD_WIDTH_DESKTOP;
+  const offset = index * (width + GAP);
+
+  const inputRange = [offset - (width + GAP), offset, offset + (width + GAP)];
+
+  const scale = useTransform(scrollX, inputRange, [0.85, 1, 0.85]);
+  const opacity = useTransform(scrollX, inputRange, [0.5, 1, 0.5]);
+  const blur = useTransform(scrollX, inputRange, [2, 0, 2]);
+
+  return (
+    <motion.div
+      className="snap-center shrink-0 w-[280px] sm:w-96 h-[50vh] rounded-2xl overflow-hidden relative"
+      style={{
+        scale,
+        opacity,
+        filter: useTransform(blur, (v) => `blur(${v}px)`),
+      }}
+    >
+      <img
+        src={item.image}
+        alt={item.Title}
+        className="absolute inset-0 w-full h-full object-cover "
+      />
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+      <div className="absolute bottom-0 inset-x-0 p-6">
+        <span className="inline-block px-2 py-1 mb-2 text-[10px] text-white uppercase bg-white/20 rounded-full">
+          {item.genre}
+        </span>
+
+        <h2 className="text-xl font-bold text-white mb-1">{item.Title}</h2>
+
+        <p className="text-neutral-300 text-sm mb-4 truncate">
+          {item.Celebrity || "Special Event"}
+        </p>
+
+        <div className="flex justify-between items-center border-t border-white/10 pt-4">
+          <span className="text-xs text-neutral-400 uppercase">
+            {item.location}
+          </span>
+
+          <span className="flex items-center gap-1 text-xs text-neutral-300 bg-black/30 px-2 py-1 rounded-md">
+            <BsEye />
+            {item.views.toLocaleString()}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
