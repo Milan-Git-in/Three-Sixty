@@ -113,7 +113,7 @@ const Grids = () => {
         Choose from your favorite
       </h1>
       <motion.div
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-2 gap-4 mb-20"
         variants={container}
         initial="hidden"
         whileInView="show"
