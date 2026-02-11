@@ -1,3 +1,5 @@
+"use client";
+import { motion } from "motion/react";
 import Image from "next/image";
 import React from "react";
 
@@ -86,31 +88,59 @@ const GRID = [
   },
 ];
 
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.2, // delay between each child
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4 },
+  },
+};
+
 const Grids = () => {
   return (
-    <div className="justify-self-center max-w-[87vw]">
+    <div className="justify-self-center max-w-[85vw]">
       <h1 className="text-2xl font-semibold text-white mb-4">
         Choose from your favorite
       </h1>
-      <div className="grid grid-cols-2 gap-4">
-        {GRID.map((item, i) => (
-          <div
-            key={item.id}
-            className={`p-4 relative flex items-top justify-start rounded-lg  ${item.bgclass}`}
+      <motion.div
+        className="grid grid-cols-2 gap-4"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        {GRID.map((itemData) => (
+          <motion.div
+            key={itemData.id}
+            variants={item}
+            className={`p-4 relative flex items-top justify-start rounded-lg ${itemData.bgclass}`}
           >
-            <h2 className={`text-xl font-bold ${item.h1class}`}>{item.h1}</h2>
-            {item.image && (
+            <h2 className={`text-xl font-bold ${itemData.h1class}`}>
+              {itemData.h1}
+            </h2>
+
+            {itemData.image && (
               <Image
-                src={item.image}
-                alt={item.h1}
+                src={itemData.image}
+                alt={itemData.h1}
                 width={200}
                 height={200}
                 className="size-42 object-contain absolute -right-6 top-4 opacity-80 pointer-events-none"
               />
             )}
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

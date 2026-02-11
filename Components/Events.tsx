@@ -1,5 +1,5 @@
-import React from "react";
-import { BiRightArrow } from "react-icons/bi";
+"use client";
+import { motion } from "motion/react";
 
 // --- Types & Mock Data ---
 
@@ -36,7 +36,20 @@ const EVENTS: EventItem[] = [
 ];
 const Events = () => {
   return (
-    <div className="flex flex-col p-8 gap-2">
+    <motion.div
+      className="flex flex-col p-8 gap-2 mt-20"
+      initial={{
+        opacity: 0,
+        y: 50,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: -80,
+      }}
+      transition={{
+        duration: 0.3,
+      }}
+    >
       <div className="w-full flex justify-between">
         <h1 className="text-3xl font-semibold">Upcoming Events</h1>
       </div>
@@ -79,7 +92,7 @@ const Events = () => {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -131,7 +131,7 @@ export default function InfiniteNativeCarousel() {
   }, []);
 
   return (
-    <div className="w-full min-h-[600px] bg-black flex items-center overflow-hidden">
+    <div className="w-full min-h-150 bg-black flex items-center overflow-hidden">
       <div
         ref={containerRef}
         className="
@@ -173,7 +173,7 @@ function CarouselCard({ item, index, scrollX }: CardProps) {
 
   return (
     <motion.div
-      className="snap-center shrink-0 w-[280px] sm:w-96 h-[50vh] rounded-2xl overflow-hidden relative"
+      className="snap-center shrink-0 w-70 sm:w-96 h-[55vh] rounded-2xl overflow-hidden relative"
       style={{
         scale,
         opacity,
@@ -186,7 +186,7 @@ function CarouselCard({ item, index, scrollX }: CardProps) {
         className="absolute inset-0 w-full h-full object-cover "
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
 
       <div className="absolute bottom-0 inset-x-0 p-6">
         <span className="inline-block px-2 py-1 mb-2 text-[10px] text-white uppercase bg-white/20 rounded-full">
